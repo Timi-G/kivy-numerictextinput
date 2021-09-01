@@ -1,2 +1,2 @@
 # kivy-textinput
-Kivy textinput with automatic seperators
+Kivy numeric textinput with flexible editing and automatic thousand seperator.
