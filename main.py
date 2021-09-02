@@ -1,4 +1,7 @@
+import locale
+import re
 
+from kivy.uix.textinput import TextInput
 
 class NumericTextInput(TextInput):
     locale.setlocale(locale.LC_ALL, '')
@@ -9,9 +12,7 @@ class NumericTextInput(TextInput):
         format_number_toget_locale = locale.format_string("%f", locale.atof(number_toget_locale), grouping=True)
         system_setthou = format_number_toget_locale[1]
         system_setdec = format_number_toget_locale[5]
-        # float regex(no thousand seperator)>>> (u'^-?[0-9]*\\.?[0-9]*$')
-        # float regex(thousand seperator(',')) >>> re.match((u'^-?[0-9]{,3},([0-9]{3,3},)*[0-9]{3,3}\\.?[0-9]{6,6}$') and
-        # >>> re.match((u'^-?[0-9]{,3}\\.?[0-9]{6,6}$')
+
         # Ensure only numbers and dot can be entered to textinput
         if re.match((u'^-?[0-9.]*$'), substring):
             cc, cr = self.cursor
@@ -37,8 +38,6 @@ class NumericTextInput(TextInput):
                     return
             super(CustomAccountNumbersTI, self).insert_text(substring, from_undo=from_undo)
             cc, cr = self.cursor
-            print(cc)
-            print(locale.format_string("%f",locale.atof(self._lines[cr]),grouping=True))
 
             # convert self._lines to float and
             # format resulting numeric text to include thousand seperator
@@ -50,7 +49,6 @@ class NumericTextInput(TextInput):
                  new_text=new_text.rstrip('0')
             else:
                  new_text=new_text.rstrip('0').rstrip(system_setdec)
-            print(cc,cr,len(new_text),len(self._lines[cr]))
 
             # increase cursor column position to account for
             # thousand seperator included automatically in text
@@ -62,7 +60,6 @@ class NumericTextInput(TextInput):
                     new_cursor=list(self._cursor)
                     new_cursor[0]=new_cursor[0]+curs_adjus
                     self._cursor=tuple(new_cursor)
-                    print('current2', cc)
 
             # so user can input '0' after decimal sign with no glitches
             # if user inputs tenth placed zero or decimal place zero greater than tenth
@@ -76,4 +73,3 @@ class NumericTextInput(TextInput):
 
             # set line text with new_text
             self._set_line_text(cr, new_text)
-            print('newest', cc)
