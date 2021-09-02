@@ -36,7 +36,7 @@ class NumericTextInput(TextInput):
                 # checks if cursor position is around the filled 6d.p
                 if cc in range(len(self._lines[cr])-6,len(self._lines[cr])+1):
                     return
-            super(CustomAccountNumbersTI, self).insert_text(substring, from_undo=from_undo)
+            super(NumericTextInput, self).insert_text(substring, from_undo=from_undo)
             cc, cr = self.cursor
 
             # convert self._lines to float and
@@ -69,7 +69,6 @@ class NumericTextInput(TextInput):
                     new_text = new_text + system_setdec + '0'
             elif '0' in substring and cc>finddecipos_lines+1 and system_setdec in self._lines[cr]:
                  new_text=new_text_fmt[:finddecipos_ntext]+self._lines[cr][finddecipos_lines:]
-
 
             # set line text with new_text
             self._set_line_text(cr, new_text)
