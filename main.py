@@ -14,7 +14,7 @@ class NumericTextInput(TextInput):
         system_setdec = format_number_toget_locale[5]
 
         # Ensure only numbers and dot can be entered to textinput
-        if re.match((u'^-?[0-9.]*$'), substring):
+        if re.match((u'^[0-9.]*$'), substring):
             cc, cr = self.cursor
             # return, if first textinput is '0' and entered figure has '0' as well
             if self._lines[cr]=='0' and substring=='0':
@@ -25,14 +25,14 @@ class NumericTextInput(TextInput):
 
             # (incase of paste) return, if entered figure is not a float with maximum of 6d.p
             '''#to be updated so user can paste float or integer with thousand seperator up to 6d.p'''
-            if not re.match((u'^-?[0-9]*\\.?[0-9]{,6}$'), substring):
+            if not re.match((u'^[0-9]*\\.?[0-9]{,6}$'), substring):
                 '''#proposed update below'''
                 # or not re.match((u'^-?[0-9]{,3},([0-9]{3,3},)*[0-9]{3,3}\\.?[0-9]{,6}$'), substring) \
                 # or not re.match((u'^-?[0-9]{,3}\\.?[0-9]{,6}$'), substring):
                 return
 
             # return if textinput has 6d.p and user tries to enter another number in decimal place
-            if re.match((u"^-?[0-9]{,3}[\s,.]([0-9]{3,3}[\s,.])*[0-9]{3,3}\\.?[0-9]{6,6}$"),self._lines[cr]) or re.match((u'^-?[0-9]{,3}\\.?[0-9]{6,6}$'), self._lines[cr]):
+            if re.match((u"^[0-9]{,3}[\s,.]([0-9]{3,3}[\s,.])*[0-9]{3,3}\\.?[0-9]{6,6}$"),self._lines[cr]) or re.match((u'^[0-9]{,3}\\.?[0-9]{6,6}$'), self._lines[cr]):
                 # checks if cursor position is around the filled 6d.p
                 if cc in range(len(self._lines[cr])-6,len(self._lines[cr])+1):
                     return
